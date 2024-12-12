@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:07:21 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/12 18:41:55 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/12 21:06:13 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,13 @@ int	end_it(t_thread **philo, pthread_mutex_t *forks)
 	while (i < (*philo)->config->num_of_philo)
 	{
 		pthread_join((*philo)[i].thread, NULL);
-		pthread_mutex_destroy((*philo)->left_fork);
-		pthread_mutex_destroy((*philo)->right_fork);
+		//pthread_mutex_destroy((*philo)->left_fork);
+		//pthread_mutex_destroy((*philo)->right_fork);
 		i++;
 	}
+	pthread_mutex_destroy((*philo)->left_fork);
+	pthread_mutex_destroy((*philo)->right_fork);
+	pthread_mutex_destroy(&(**philo).config->caca);
 	pthread_mutex_destroy(&(**philo).config->printf);
 	pthread_mutex_destroy(&(**philo).config->status);
 	pthread_mutex_destroy(&(**philo).config->dead);
@@ -69,3 +72,37 @@ int	end_it(t_thread **philo, pthread_mutex_t *forks)
 	free_fp((*philo), forks, (*philo)->config);
 	return (0);
 }
+
+int	for_odd(t_thread *philo)
+{
+	pthread_mutex_lock(philo->right_fork);
+	if (printf_lock(philo, "has taken a fork\n") == 1)
+	{
+		pthread_mutex_unlock(philo->right_fork);
+		return (1);
+	}
+	if (is_alive(philo) == 1)
+	{
+		pthread_mutex_unlock(philo->right_fork);
+		return (1);
+	}
+	// if (the_end_of_for_odd(philo) == 1)
+	// 		return (1);
+	pthread_mutex_lock(philo->left_fork);
+	if (printf_lock(philo, "has taken a fork\n") == 1)
+	{
+		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
+		return (1);
+	}
+	if (is_alive(philo) == 1)
+	{
+		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
+		return (1);
+	}
+	if (printf_lock(philo, "is eating\n") == 1)
+		return (1);
+	return (0);
+}
+

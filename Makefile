@@ -6,13 +6,13 @@
 #    By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 16:27:33 by logkoege          #+#    #+#              #
-#    Updated: 2024/12/12 16:28:29 by logkoege         ###   ########.fr        #
+#    Updated: 2024/12/12 21:07:03 by logkoege         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=thread 	
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=thread 	
 
 SRC = philo.c				\
 		parsing.c			\
@@ -20,6 +20,7 @@ SRC = philo.c				\
 		utils_2.c			\
 		init.c				\
 		routine.c			\
+		the_end.c			\
 
 OBJ = $(SRC:.c=.o)
 

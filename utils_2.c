@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:05:31 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/12 18:44:35 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/12 20:59:54 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,13 @@ int	is_alive(t_thread *philo)
 
 int	philo_is_alive(t_thread *philo)
 {
+	pthread_mutex_lock(&philo->config->caca);
 	if (get_time() - philo->config->start_time
 		- philo->last_meal >= philo->config->time_to_die)
+	{
+		pthread_mutex_unlock(&philo->config->caca);
 		return (1);
+	}
+	pthread_mutex_unlock(&philo->config->caca);
 	return (0);
 }

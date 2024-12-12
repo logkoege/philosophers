@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:56:10 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/12 18:46:30 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/12 19:54:38 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_config
 	int				stop;			// Bool pour la mort des philo
 	int				count_meal;		// Compteur de repas
 	int				free_forks;		// Bool pour savoir si forks a etais malloc
+	pthread_mutex_t	caca;
 	int				free_philo;		// Bool pour savoir si philo a etais malloc
 	pthread_mutex_t	printf;			// Mutex pour les printf
 	pthread_mutex_t	meal;			// Mutex pour les repas
@@ -84,5 +85,10 @@ int			philo_sleeping(t_thread *philo);
 int			if_1_philo(t_config *config);
 int			pars_arg(int argc, char **argv, t_config *config);
 int			end_it(t_thread **philo, pthread_mutex_t *forks);
+int			for_odd(t_thread *philo);
+
+// the_end.c
+int			the_end_of_for_odd(t_thread *philo);
+int			the_end_of_fork_muting(t_thread *philo);
 
 #endif

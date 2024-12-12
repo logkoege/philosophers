@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:10:03 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/12 18:34:53 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/12 19:53:27 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,26 +63,39 @@ int	philo_eating(t_thread *philo)
 
 int	fork_muting(t_thread *philo)
 {
-	pthread_mutex_lock(philo->left_fork);
-	if (printf_lock(philo, "has taken a fork\n") == 1)
-		return (1);
-	if (is_alive(philo) == 1)
+	if (philo->id % 2 == 0)
 	{
-		pthread_mutex_unlock(philo->left_fork);
-		philo->config->stop = 1;
-		return (1);
+		pthread_mutex_lock(philo->left_fork);
+		if (printf_lock(philo, "has taken a fork\n") == 1)
+		{
+			pthread_mutex_unlock(philo->left_fork);
+			return (1);
+		}
+		if (is_alive(philo) == 1)
+		{
+			pthread_mutex_unlock(philo->left_fork);
+			return (1);
+		}
+		// if (the_end_of_fork_muting(philo) == 1)
+		// 	return (1);
+		pthread_mutex_lock(philo->right_fork);
+		if (printf_lock(philo, "has taken a fork\n") == 1)
+		{
+			pthread_mutex_lock(philo->left_fork);
+			pthread_mutex_lock(philo->right_fork);
+			return (1);
+		}
+		if (is_alive(philo) == 1)
+		{
+			pthread_mutex_unlock(philo->left_fork);
+			pthread_mutex_unlock(philo->right_fork);
+			return (1);
+		}
+		if (printf_lock(philo, "is eating\n") == 1)
+			return (1);
+		return (0);
 	}
-	pthread_mutex_lock(philo->right_fork);
-	if (printf_lock(philo, "has taken a fork\n") == 1)
-		return (1);
-	if (is_alive(philo) == 1)
-	{
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_unlock(philo->right_fork);
-		philo->config->stop = 1;
-		return (1);
-	}
-	if (printf_lock(philo, "is eating\n") == 1)
+	if (for_odd(philo) == 1)
 		return (1);
 	return (0);
 }

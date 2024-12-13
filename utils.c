@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:02:48 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/12 18:43:37 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/13 15:57:50 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,14 @@ void	free_fp(t_thread *philo, pthread_mutex_t *forks, t_config *config)
 int	printf_lock(t_thread *philo, char *msg)
 {
 	pthread_mutex_lock(&philo->config->meal);
-	if (philo->config->count_meal / philo->config->num_of_philo
-		== philo->config->num_of_meal)
+	if (philo->config->num_of_meal != 0)
 	{
-		pthread_mutex_unlock(&philo->config->meal);
-		return (1);
+		if (philo->config->count_meal / philo->config->num_of_philo
+			== philo->config->num_of_meal)
+		{
+			pthread_mutex_unlock(&philo->config->meal);
+			return (1);
+		}
 	}
 	pthread_mutex_unlock(&philo->config->meal);
 	pthread_mutex_lock(&(philo->config->dead));
@@ -92,7 +95,6 @@ int	printf_lock(t_thread *philo, char *msg)
 
 int	nb_of_meal(t_thread *philo)
 {
-	pthread_mutex_lock(&philo->config->meal);
 	if (philo->config->count_meal / philo->config->num_of_philo
 		== philo->config->num_of_meal)
 	{
@@ -100,6 +102,5 @@ int	nb_of_meal(t_thread *philo)
 		return (1);
 	}
 	philo->config->count_meal++;
-	pthread_mutex_unlock(&philo->config->meal);
 	return (0);
 }

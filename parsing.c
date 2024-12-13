@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:07:21 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/12 21:06:13 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:00:38 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,10 @@ int	end_it(t_thread **philo, pthread_mutex_t *forks)
 	while (i < (*philo)->config->num_of_philo)
 	{
 		pthread_join((*philo)[i].thread, NULL);
-		//pthread_mutex_destroy((*philo)->left_fork);
-		//pthread_mutex_destroy((*philo)->right_fork);
 		i++;
 	}
 	pthread_mutex_destroy((*philo)->left_fork);
 	pthread_mutex_destroy((*philo)->right_fork);
-	pthread_mutex_destroy(&(**philo).config->caca);
 	pthread_mutex_destroy(&(**philo).config->printf);
 	pthread_mutex_destroy(&(**philo).config->status);
 	pthread_mutex_destroy(&(**philo).config->dead);
@@ -105,4 +102,3 @@ int	for_odd(t_thread *philo)
 		return (1);
 	return (0);
 }
-

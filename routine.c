@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:10:03 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/13 15:56:57 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/17 15:57:56 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	philo_eating(t_thread *philo)
 	{
 		if (nb_of_meal(philo) == 1)
 		{
-			pthread_mutex_unlock(&philo->config->meal);
 			pthread_mutex_unlock(philo->left_fork);
 			pthread_mutex_unlock(philo->right_fork);
 			return (1);
@@ -108,6 +107,18 @@ int	fork_muting(t_thread *philo)
 
 int	philo_sleeping(t_thread *philo)
 {
+	pthread_mutex_lock(&philo->config->meal);
+	if (philo->config->num_of_meal != 0)
+	{
+		if (philo->config->count_meal
+			/ philo->config->num_of_philo
+			== philo->config->num_of_meal)
+		{
+			pthread_mutex_unlock(&philo->config->meal);
+			return (1);
+		}
+	}
+	pthread_mutex_unlock(&philo->config->meal);
 	if (is_alive(philo) == 1)
 		return (1);
 	if (printf_lock(philo, "is sleeping\n") == 1)

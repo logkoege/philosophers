@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:07:21 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/17 16:36:25 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/17 18:01:04 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	end_it(t_thread **philo, pthread_mutex_t *forks)
 		printf("nb of philo ->%d\n", (*philo)->config->num_of_philo);
 		printf("i ->%d\n", i);
 		pthread_join((*philo)[i].thread, NULL);
+	//crash 1 fois sur 2 se block a (num de philo - 1) ???
 		i++;
 	}
 	printf("no error\n");

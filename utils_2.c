@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:05:31 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/17 17:56:56 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/18 15:28:20 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ void	while_life(t_thread **philo, t_config *config)
 			pthread_mutex_lock(&(*philo)->config->meal);
 			if ((*philo)->config->num_of_meal != 0)
 			{
-				if ((*philo)->config->count_meal
-					/ (*philo)->config->num_of_philo
-					== (*philo)->config->num_of_meal)
+				if (meal_count(*philo) == 0)
 				{
 					pthread_mutex_unlock(&(*philo)->config->meal);
 					return ;
@@ -81,7 +79,7 @@ int	philo_is_alive(t_thread *philo)
 {
 	pthread_mutex_lock(&philo->config->status);
 	if (get_time() - philo->config->start_time
-		- philo->last_meal >= philo->config->time_to_die)
+		- philo->last_meal > philo->config->time_to_die + 5)
 	{
 		pthread_mutex_unlock(&philo->config->status);
 		return (1);

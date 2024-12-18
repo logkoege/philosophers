@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:10:03 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/17 15:57:56 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/18 15:12:36 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,12 @@ void	*philo_routine(void *arg)
 
 	philo = (t_thread *) arg;
 	if (philo->id % 2 == 0)
-		usleep((philo->config->time_to_eat * 1000) / 2);
+	{
+		if (philo->config->time_to_die > philo->config->time_to_eat)
+			usleep((philo->config->time_to_eat * 1000) / 2);
+		else
+			usleep((philo->config->time_to_die * 1000) / 2);
+	}
 	while (1)
 	{
 		if (philo_thinking(philo) == 1)
@@ -70,20 +75,10 @@ int	fork_muting(t_thread *philo)
 {
 	if (philo->id % 2 == 0)
 	{
-		pthread_mutex_lock(philo->left_fork);
-		if (printf_lock(philo, "has taken a fork\n") == 1)
-		{
-			pthread_mutex_unlock(philo->left_fork);
+		if (fork_muting_1(philo) == 1)
 			return (1);
-		}
-		if (is_alive(philo) == 1)
-		{
-			pthread_mutex_unlock(philo->left_fork);
+		if (fork_muting_2(philo) == 1)
 			return (1);
-		}
-		// if (the_end_of_fork_muting(philo) == 1)
-		// 	return (1);
-		pthread_mutex_lock(philo->right_fork);
 		if (printf_lock(philo, "has taken a fork\n") == 1)
 		{
 			pthread_mutex_lock(philo->left_fork);

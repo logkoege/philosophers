@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:07:21 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/17 18:01:04 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/18 15:33:45 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,9 @@ int	end_it(t_thread **philo, pthread_mutex_t *forks)
 	i = 0;
 	while (i < (*philo)->config->num_of_philo)
 	{
-		printf("nb of philo ->%d\n", (*philo)->config->num_of_philo);
-		printf("i ->%d\n", i);
 		pthread_join((*philo)[i].thread, NULL);
-	//crash 1 fois sur 2 se block a (num de philo - 1) ???
 		i++;
 	}
-	printf("no error\n");
 	pthread_mutex_destroy((*philo)->left_fork);
 	pthread_mutex_destroy((*philo)->right_fork);
 	pthread_mutex_destroy(&(**philo).config->printf);
@@ -76,20 +72,10 @@ int	end_it(t_thread **philo, pthread_mutex_t *forks)
 
 int	for_odd(t_thread *philo)
 {
-	pthread_mutex_lock(philo->right_fork);
-	if (printf_lock(philo, "has taken a fork\n") == 1)
-	{
-		pthread_mutex_unlock(philo->right_fork);
+	if (for_odd_1(philo) == 1)
 		return (1);
-	}
-	if (is_alive(philo) == 1)
-	{
-		pthread_mutex_unlock(philo->right_fork);
+	if (for_odd_2(philo) == 1)
 		return (1);
-	}
-	// if (the_end_of_for_odd(philo) == 1)
-	// 		return (1);
-	pthread_mutex_lock(philo->left_fork);
 	if (printf_lock(philo, "has taken a fork\n") == 1)
 	{
 		pthread_mutex_unlock(philo->right_fork);

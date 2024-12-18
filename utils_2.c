@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:05:31 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/18 15:28:20 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/18 15:51:45 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,8 @@ void	while_life(t_thread **philo, t_config *config)
 {
 	int	j;
 
-	pthread_mutex_lock(&(*philo)->config->dead);
-	while (config->stop == 0)
+	while (1)
 	{
-		pthread_mutex_unlock(&(*philo)->config->dead);
 		j = -1;
 		while (++j < config->num_of_philo)
 		{
@@ -50,9 +48,7 @@ void	while_life(t_thread **philo, t_config *config)
 			}
 			pthread_mutex_unlock(&(*philo)->config->meal);
 		}
-		pthread_mutex_lock(&(*philo)->config->dead);
 	}
-	pthread_mutex_unlock(&(*philo)->config->dead);
 }
 
 int	is_alive(t_thread *philo)

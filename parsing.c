@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:07:21 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/18 16:08:42 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/18 17:39:37 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,28 +67,5 @@ int	end_it(t_thread **philo, pthread_mutex_t *forks)
 	pthread_mutex_destroy(&(**philo).config->dead);
 	pthread_mutex_destroy(&(**philo).config->meal);
 	free_fp((*philo), forks, (*philo)->config);
-	return (0);
-}
-
-int	for_odd(t_thread *philo)
-{
-	if (for_odd_1(philo) == 1)
-		return (1);
-	if (for_odd_2(philo) == 1)
-		return (1);
-	if (printf_lock(philo, "has taken a fork\n") == 1)
-	{
-		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_unlock(philo->left_fork);
-		return (1);
-	}
-	if (is_alive(philo) == 1)
-	{
-		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_unlock(philo->left_fork);
-		return (1);
-	}
-	if (printf_lock(philo, "is eating\n") == 1)
-		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:56:10 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/18 15:23:50 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/18 17:39:42 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,10 @@ int			philo_sleeping(t_thread *philo);
 int			if_1_philo(t_config *config);
 int			pars_arg(int argc, char **argv, t_config *config);
 int			end_it(t_thread **philo, pthread_mutex_t *forks);
-int			for_odd(t_thread *philo);
 
 // the_end.c
 int			meal_count(t_thread *philo);
 int			fork_muting_1(t_thread *philo);
 int			fork_muting_2(t_thread *philo);
-int			for_odd_1(t_thread *philo);
-int			for_odd_2(t_thread *philo);
 
 #endif

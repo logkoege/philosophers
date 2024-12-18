@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:07:21 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/18 15:33:45 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/18 16:08:42 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	if_1_philo(t_config *config)
 		printf("0 1 is thinking\n");
 		printf("0 1 as taken a fork\n");
 		ft_usleep(config->time_to_die);
-		printf("%lld 1 is dead\n", config->time_to_die);
+		printf("%lld 1 died\n", config->time_to_die);
 		return (1);
 	}
 	return (0);

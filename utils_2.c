@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:05:31 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/18 15:51:45 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/18 16:08:56 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	is_alive(t_thread *philo)
 	pthread_mutex_unlock(&(philo->config->dead));
 	if (philo_is_alive(philo) == 1)
 	{
-		printf_lock(philo, "is dead\n");
+		printf_lock(philo, "died\n");
 		pthread_mutex_lock(&(philo->config->dead));
 		philo->config->stop = 1;
 		pthread_mutex_unlock(&(philo->config->dead));

@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:56:17 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/17 16:30:17 by logkoege         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:33:01 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	init_config(t_config *config)
 {
+	config->stop = 0;
 	config->count_meal = 0;
 	config->num_of_philo = 0;
 	config->time_to_die = 0;

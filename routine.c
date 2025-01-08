@@ -6,7 +6,7 @@
 /*   By: logkoege <logkoege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:10:03 by logkoege          #+#    #+#             */
-/*   Updated: 2024/12/18 17:55:38 by logkoege         ###   ########.fr       */
+/*   Updated: 2025/01/08 18:11:29 by logkoege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	*philo_routine(void *arg)
 	t_thread	*philo;
 
 	philo = (t_thread *) arg;
-	if (philo->id % 2 != 0)
+	if (philo->id % 2 == 0)
 	{
 		if (philo->config->time_to_die > philo->config->time_to_eat)
 			usleep((philo->config->time_to_eat * 1000) / 2);
 		else
-			usleep((philo->config->time_to_eat * 1000) / 2);
+			usleep((philo->config->time_to_die * 1000) / 2);
 	}
 	while (1)
 	{
@@ -59,28 +59,34 @@ int	philo_eating(t_thread *philo)
 	{
 		if (nb_of_meal(philo) == 1)
 		{
-			pthread_mutex_unlock(philo->left_fork);
 			pthread_mutex_unlock(philo->right_fork);
+			pthread_mutex_unlock(philo->left_fork);
 			return (1);
 		}
 	}
 	pthread_mutex_unlock(&philo->config->meal);
 	ft_usleep(philo->config->time_to_eat);
-	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(philo->left_fork);
 	return (0);
 }
 
 int	fork_muting(t_thread *philo)
 {
-	if (fork_muting_1(philo) == 1)
-		return (1);
-	if (fork_muting_2(philo) == 1)
-		return (1);
+	if (philo->id % 2 == 0)
+		if (fork_muting_1(philo) == 1 || fork_muting_2(philo) == 1)
+			return (1);
+	if (philo->id % 2 != 0)
+	{
+		if (fork_muting_3(philo) == 1)
+			return (1);
+		if (fork_muting_4(philo) == 1)
+			return (1);
+	}
 	if (printf_lock(philo, "has taken a fork\n") == 1)
 	{
-		pthread_mutex_lock(philo->left_fork);
-		pthread_mutex_lock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(philo->right_fork);
 		return (1);
 	}
 	if (is_alive(philo) == 1)
